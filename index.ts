@@ -1,4 +1,3 @@
-// Extend the Window interface to include custom methods
 interface Window{
     addToCart: (productId: number) => void;
     increaseQuantity: (productId: number) => void;
@@ -26,11 +25,9 @@ interface Window{
     const filterSelect = document.getElementById('filter') as HTMLSelectElement;
     const sortSelect = document.getElementById('sort') as HTMLSelectElement;
     const clearCartButton = document.getElementById('clear-cart') as HTMLButtonElement;
-  
     let products: Product[] = [];
     let cart: CartItem[] = JSON.parse(localStorage.getItem('cart') || '[]');
     const apiUrl = 'https://fakestoreapi.com/products';
-    // Fetch all products
     fetch(apiUrl)
       .then(response => response.json())
       .then((data: Product[]) => {
@@ -39,8 +36,6 @@ interface Window{
         populateFilterOptions(products);
         renderCart();
       });
-  
-    // Render products
     function renderProducts(products: Product[]) {
       productsContainer.innerHTML = products.map(product => `
         <div class="product">
@@ -52,8 +47,6 @@ interface Window{
         </div>
       `).join('');
     }
-  
-    // Render cart
     function renderCart() {
       cartContainer.innerHTML = cart.map(item => `
         <li class="cart-item">
@@ -65,8 +58,6 @@ interface Window{
       `).join('');
       localStorage.setItem('cart', JSON.stringify(cart));
     }
-  
-    // Add to cart
     window.addToCart = function(productId: number) {
       const product = products.find(p => p.id === productId);
       if (!product) return;
@@ -80,8 +71,6 @@ interface Window{
   
       renderCart();
     }
-  
-    // Increase quantity
     window.increaseQuantity = function(productId: number) {
       const cartItem = cart.find(item => item.id === productId);
       if (cartItem) {
@@ -89,8 +78,7 @@ interface Window{
         renderCart();
       }
     }
-  
-    // Decrease quantity
+
     window.decreaseQuantity = function(productId: number) {
       const cartItem = cart.find(item => item.id === productId);
       if (cartItem) {
@@ -102,20 +90,14 @@ interface Window{
         renderCart();
       }
     }
-
-    // Remove from cart
     window.removeFromCart = function(productId: number) {
       cart = cart.filter(item => item.id !== productId);
       renderCart();
     }
-  
-    // Clear cart
     clearCartButton.addEventListener('click', () => {
       cart = [];
       renderCart();
     });
-  
-    // Search products
     searchInput.addEventListener('input', () => {
       const query = searchInput.value.toLowerCase();
       const filteredProducts = products.filter(product =>
@@ -123,8 +105,6 @@ interface Window{
       );
       renderProducts(filteredProducts);
     });
-  
-    // Filter products by type
     filterSelect.addEventListener('change', () => {
       const selectedType = filterSelect.value;
       const filteredProducts = selectedType ? products.filter(product =>
@@ -132,8 +112,6 @@ interface Window{
       ) : products;
       renderProducts(filteredProducts);
     });
-  
-    // Sort products by price
     sortSelect.addEventListener('change', () => {
       const sortOrder = sortSelect.value;
       const sortedProducts = [...products].sort((a, b) =>
@@ -141,8 +119,6 @@ interface Window{
       );
       renderProducts(sortedProducts);
     });
-  
-    // Populate filter options
     function populateFilterOptions(products: Product[]) {
       const uniqueCategories = getUniqueCategories(products);
       filterSelect.innerHTML += uniqueCategories.map(category => `

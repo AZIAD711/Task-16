@@ -39,11 +39,11 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     // Render products
     function renderProducts(products) {
-        productsContainer.innerHTML = products.map(function (product) { return "\n        <div class=\"product\">\n          <img src=\"".concat(product.image, "\" alt=\"").concat(product.title, "\">\n          <h3>").concat(product.title, "</h3>\n          <p>").concat(product.description, "</p>\n          <p>$").concat(product.price, "</p>\n          <button onclick=\"window.addToCart(").concat(product.id, ")\">Add to Cart</button>\n        </div>\n      "); }).join('');
+        productsContainer.innerHTML = products.map(function (product) { return "\n      <div class=\"product\">\n        <img src=\"".concat(product.image, "\" alt=\"").concat(product.title, "\">\n        <h3>").concat(product.title, "</h3>\n        <p>").concat(product.description, "</p>\n        <p>$").concat(product.price, "</p>\n        <button onclick=\"window.addToCart(").concat(product.id, ")\">Add to Cart</button>\n      </div>\n    "); }).join('');
     }
     // Render cart
     function renderCart() {
-        cartContainer.innerHTML = cart.map(function (item) { return "\n        <li class=\"cart-item\">\n          ".concat(item.title, " - $").concat(item.price, " x ").concat(item.quantity, "\n          <button onclick=\"window.increaseQuantity(").concat(item.id, ")\">+</button>\n          <button onclick=\"window.decreaseQuantity(").concat(item.id, ")\">-</button>\n          <button onclick=\"window.removeFromCart(").concat(item.id, ")\">Remove</button>\n        </li>\n      "); }).join('');
+        cartContainer.innerHTML = cart.map(function (item) { return "\n      <li class=\"cart-item\">\n        ".concat(item.title, " - $").concat(item.price, " x ").concat(item.quantity, "\n        <button onclick=\"window.increaseQuantity(").concat(item.id, ")\">+</button>\n        <button onclick=\"window.decreaseQuantity(").concat(item.id, ")\">-</button>\n        <button onclick=\"window.removeFromCart(").concat(item.id, ")\">Remove</button>\n      </li>\n    "); }).join('');
         localStorage.setItem('cart', JSON.stringify(cart));
     }
     // Add to cart
@@ -118,13 +118,13 @@ document.addEventListener('DOMContentLoaded', function () {
     // Populate filter options
     function populateFilterOptions(products) {
         var uniqueCategories = getUniqueCategories(products);
-        filterSelect.innerHTML += uniqueCategories.map(function (category) { return "\n        <option value=\"".concat(category, "\">").concat(category, "</option>\n      "); }).join('');
+        filterSelect.innerHTML += uniqueCategories.map(function (category) { return "\n      <option value=\"".concat(category, "\">").concat(category, "</option>\n    "); }).join('');
     }
     function getUniqueCategories(products) {
         var categories = [];
         for (var _i = 0, products_1 = products; _i < products_1.length; _i++) {
             var product = products_1[_i];
-            if (categories.includes(product.category)) {
+            if (!categories.includes(product.category)) {
                 categories.push(product.category);
             }
         }

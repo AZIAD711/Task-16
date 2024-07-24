@@ -37,16 +37,13 @@ document.addEventListener('DOMContentLoaded', function () {
         populateFilterOptions(products);
         renderCart();
     });
-    // Render products
     function renderProducts(products) {
         productsContainer.innerHTML = products.map(function (product) { return "\n        <div class=\"product\">\n          <img src=\"".concat(product.image, "\" alt=\"").concat(product.title, "\">\n          <h3>").concat(product.title, "</h3>\n          <p>").concat(product.description, "</p>\n          <p>$").concat(product.price, "</p>\n          <button onclick=\"window.addToCart(").concat(product.id, ")\">Add to Cart</button>\n        </div>\n      "); }).join('');
     }
-    // Render cart
     function renderCart() {
         cartContainer.innerHTML = cart.map(function (item) { return "\n        <li class=\"cart-item\">\n          ".concat(item.title, " - $").concat(item.price, " x ").concat(item.quantity, "\n          <button onclick=\"window.increaseQuantity(").concat(item.id, ")\">+</button>\n          <button onclick=\"window.decreaseQuantity(").concat(item.id, ")\">-</button>\n          <button onclick=\"window.removeFromCart(").concat(item.id, ")\">Remove</button>\n        </li>\n      "); }).join('');
         localStorage.setItem('cart', JSON.stringify(cart));
     }
-    // Add to cart
     window.addToCart = function (productId) {
         var product = products.find(function (p) { return p.id === productId; });
         if (!product)
@@ -60,7 +57,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         renderCart();
     };
-    // Increase quantity
     window.increaseQuantity = function (productId) {
         var cartItem = cart.find(function (item) { return item.id === productId; });
         if (cartItem) {
@@ -68,7 +64,6 @@ document.addEventListener('DOMContentLoaded', function () {
             renderCart();
         }
     };
-    // Decrease quantity
     window.decreaseQuantity = function (productId) {
         var cartItem = cart.find(function (item) { return item.id === productId; });
         if (cartItem) {
@@ -81,17 +76,15 @@ document.addEventListener('DOMContentLoaded', function () {
             renderCart();
         }
     };
-    // Remove from cart
+
     window.removeFromCart = function (productId) {
         cart = cart.filter(function (item) { return item.id !== productId; });
         renderCart();
     };
-    // Clear cart
     clearCartButton.addEventListener('click', function () {
         cart = [];
         renderCart();
     });
-    // Search products
     searchInput.addEventListener('input', function () {
         var query = searchInput.value.toLowerCase();
         var filteredProducts = products.filter(function (product) {
@@ -99,7 +92,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
         renderProducts(filteredProducts);
     });
-    // Filter products by type
     filterSelect.addEventListener('change', function () {
         var selectedType = filterSelect.value;
         var filteredProducts = selectedType ? products.filter(function (product) {
@@ -107,7 +99,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }) : products;
         renderProducts(filteredProducts);
     });
-    // Sort products by price
     sortSelect.addEventListener('change', function () {
         var sortOrder = sortSelect.value;
         var sortedProducts = __spreadArray([], products, true).sort(function (a, b) {
@@ -115,7 +106,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
         renderProducts(sortedProducts);
     });
-    // Populate filter options
     function populateFilterOptions(products) {
         var uniqueCategories = getUniqueCategories(products);
         filterSelect.innerHTML += uniqueCategories.map(function (category) { return "\n        <option value=\"".concat(category, "\">").concat(category, "</option>\n      "); }).join('');
